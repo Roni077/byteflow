@@ -1,0 +1,78 @@
+name: Build APK & CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-verify:
+    name: Test, Analyze & Build APKs
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'master'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+
+      - name: Set up Gradle Cache
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Ensure Gradle wrapper executable
+        run: chmod +x android/gradlew
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Verify code generation
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Step 1 - Run Unit & Widget Tests
+        run: flutter test
+
+      - name: Step 1b - Run Comprehensive Phase Verifications
+        run: dart test/verify_all_phases.dart
+
+      - name: Step 2 - Run Static Analysis
+        run: flutter analyze --fatal-infos --fatal-warnings
+
+      - name: Step 3 - Build Debug APK
+        run: flutter build apk --debug
+
+      - name: Step 4 - Build Release APK
+        run: flutter build apk --release
+
+      - name: Upload Debug APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: byteflow-debug-apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload Release APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: byteflow-release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
+          retention-days: 14

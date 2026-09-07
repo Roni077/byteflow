@@ -1,0 +1,87 @@
+name: Bug Report
+description: Create a bug report to help improve ByteFlow
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting an issue with ByteFlow! Please fill out the form below as completely as possible.
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is.
+      placeholder: When navigating to the Per-App usage tab...
+    validations:
+      required: true
+  - type: input
+    id: device-model
+    attributes:
+      label: Device Model & Manufacturer
+      description: What device are you using?
+      placeholder: Google Pixel 8 Pro / Samsung Galaxy S24 Ultra
+    validations:
+      required: true
+  - type: input
+    id: android-version
+    attributes:
+      label: Android OS Version
+      description: Android version and API level
+      placeholder: Android 14 (API 34) / LineageOS 21
+    validations:
+      required: true
+  - type: dropdown
+    id: shizuku-status
+    attributes:
+      label: Shizuku Status
+      description: Is Shizuku installed, running, and authorized for ByteFlow?
+      options:
+        - "Not installed"
+        - "Installed but not running"
+        - "Running but permission not granted"
+        - "Running and authorized (Green Traffic Light)"
+    validations:
+      required: true
+  - type: input
+    id: app-version
+    attributes:
+      label: ByteFlow Version
+      description: ByteFlow version (e.g. 1.0.0+1) or commit SHA
+      placeholder: v1.0.0
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1. Open ByteFlow
+        2. Tap on Settings
+        3. Toggle Status Bar Speed Indicator
+        4. See crash or incorrect display
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: A clear description of what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or Stack Trace
+      description: Please paste any relevant `adb logcat` or Flutter console output.
+      render: shell
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I have searched existing issues to ensure this is not a duplicate.
+          required: true
+        - label: I am running the latest version of ByteFlow.
+          required: false

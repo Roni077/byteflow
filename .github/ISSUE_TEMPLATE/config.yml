@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: GitHub Security Advisory
+    url: https://github.com/Roni077/byteflow/security/advisories/new
+    about: Please report security vulnerabilities privately.
+  - name: Documentation
+    url: https://github.com/Roni077/byteflow#readme
+    about: View architecture, feature documentation, and Shizuku setup guides.

@@ -1,0 +1,42 @@
+name: Feature Request
+description: Suggest an idea or enhancement for ByteFlow
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for suggesting an enhancement to ByteFlow!
+  - type: textarea
+    id: problem
+    attributes:
+      label: Is your feature request related to a problem?
+      description: A clear and concise description of what the problem or limitation is.
+      placeholder: I am frustrated when...
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the solution or feature you would like added to ByteFlow.
+      placeholder: Add support for...
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Describe any alternative solutions or features you've considered.
+  - type: textarea
+    id: battery-impact
+    attributes:
+      label: Battery & Performance Considerations
+      description: How might this impact device battery consumption or background wakeups?
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I have verified this is not a duplicate of an existing feature request.
+          required: true

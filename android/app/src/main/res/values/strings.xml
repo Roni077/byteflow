@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ByteFlow</string>
+    <string name="widget_speed_label">ByteFlow Speed</string>
+    <string name="widget_speed_description">Live download and upload network speed</string>
+    <string name="widget_today_usage_label">ByteFlow Today Usage</string>
+    <string name="widget_today_usage_description">Today\'s cumulative cellular and Wi-Fi data usage</string>
+    <string name="widget_data_plan_label">ByteFlow Data Plan</string>
+    <string name="widget_data_plan_description">Active cellular plan remaining allowance and cycle progress</string>
+</resources>

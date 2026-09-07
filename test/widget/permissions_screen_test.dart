@@ -67,7 +67,7 @@ void main() {
       expect(find.text('Usage Access'), findsOneWidget);
       expect(find.text('Notifications (Android 13+)'), findsOneWidget);
       expect(find.text('Battery Optimization'), findsOneWidget);
-      expect(find.text('Shizuku Privileged Access'), findsOneWidget);
+      expect(find.text('Shizuku Privileged Multi-SIM'), findsOneWidget);
       expect(find.text('Privacy & Data Security'), findsOneWidget);
     });
 

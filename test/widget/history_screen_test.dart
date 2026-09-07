@@ -2,35 +2,48 @@
 library;
 
 import 'package:checks/checks.dart';
-import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:byteflow/database/app_database.dart';
-import 'package:byteflow/providers/database_provider.dart';
-import 'package:byteflow/repositories/usage_repository.dart';
+import 'package:byteflow/database/daos/usage_dao.dart';
+import 'package:byteflow/providers/usage_history_provider.dart';
 import 'package:byteflow/screens/history/history_screen.dart';
 
 void main() {
-  late AppDatabase db;
-  late UsageRepository repository;
+  final sampleReport = HistoryReport(
+    isHourly: false,
+    averageBytes: 60 * 1024 * 1024,
+    peakPoint: null,
+    aggregate: const UsageAggregate(
+      downloadBytes: 1024 * 1024 * 50,
+      uploadBytes: 1024 * 1024 * 10,
+      wifiBytes: 1024 * 1024 * 60,
+      mobileBytes: 0,
+    ),
+    dataPoints: [
+      HistoryDataPoint(
+        label: '12:00',
+        timestamp: DateTime.now().subtract(const Duration(hours: 1)),
+        value: 1024 * 1024 * 60,
+        downloadBytes: 1024 * 1024 * 50,
+        uploadBytes: 1024 * 1024 * 10,
+        wifiBytes: 1024 * 1024 * 60,
+        mobileBytes: 0,
+      ),
+    ],
+  );
 
-  setUp(() {
-    db = AppDatabase(NativeDatabase.memory());
-    repository = UsageRepository(db, enablePeriodicFlush: false);
-  });
-
-  tearDown(() async {
-    repository.dispose();
-    await db.close();
-  });
-
-  Widget buildSubject() {
+  Widget buildSubject({HistoryReport? report}) {
     return ProviderScope(
       overrides: [
-        databaseProvider.overrideWithValue(db),
-        usageRepositoryProvider.overrideWithValue(repository),
+        historyReportProvider.overrideWith((ref) {
+          ref.watch(historyFilterProvider);
+          if (report != null) {
+            return Stream.value(report);
+          }
+          return Stream.value(HistoryReport.empty());
+        }),
       ],
       child: const MaterialApp(
         home: HistoryScreen(),
@@ -114,19 +127,7 @@ void main() {
       tester.view.devicePixelRatio = 1.0;
       addTearDown(tester.view.resetPhysicalSize);
 
-      final now = DateTime.now();
-
-      await db.usageDao.insertSnapshot(
-        UsageSnapshotsCompanion.insert(
-          timestamp: now.subtract(const Duration(hours: 1)),
-          downloadBytes: 1024 * 1024 * 50, // 50 MB
-          uploadBytes: 1024 * 1024 * 10,   // 10 MB
-          wifiBytes: 1024 * 1024 * 60,
-          mobileBytes: 0,
-        ),
-      );
-
-      await tester.pumpWidget(buildSubject());
+      await tester.pumpWidget(buildSubject(report: sampleReport));
       await tester.pumpAndSettle();
 
       // Summary stat cards should appear

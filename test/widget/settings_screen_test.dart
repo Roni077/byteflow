@@ -6,9 +6,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:byteflow/core/utils/formatters.dart';
+import 'package:byteflow/models/data_plan_usage_info.dart';
 import 'package:byteflow/models/foreground_service_config.dart';
 import 'package:byteflow/models/shizuku_status.dart';
 import 'package:byteflow/models/user_preferences.dart';
+import 'package:byteflow/providers/data_plans_provider.dart';
 import 'package:byteflow/providers/foreground_service_provider.dart';
 import 'package:byteflow/providers/package_info_provider.dart';
 import 'package:byteflow/providers/permissions_provider.dart';
@@ -96,6 +98,9 @@ void main() {
         packageInfoProvider.overrideWith(
           (ref) async => mockPackageInfo,
         ),
+        dataPlansWithUsageProvider.overrideWith(
+          (ref) async => <DataPlanUsageInfo>[],
+        ),
       ],
       child: const MaterialApp(
         home: SettingsScreen(),
@@ -126,7 +131,7 @@ void main() {
       expect(find.text('Data Usage Display Style'), findsOneWidget);
       expect(find.text('Units of Measurement'), findsOneWidget);
       expect(find.text('Background Monitoring & Service'), findsOneWidget);
-      expect(find.text('Status Bar Speed Indicator'), findsOneWidget);
+      expect(find.text('Status Bar Speed Indicator'), findsNWidgets(2));
       expect(find.text('System Startup'), findsOneWidget);
       expect(find.text('System Permissions & Hardware'), findsOneWidget);
       expect(find.text('About ByteFlow'), findsOneWidget);

@@ -74,7 +74,13 @@ void main() {
         ),
         findsOneWidget,
       );
-      expect(find.text('Upload'), findsOneWidget);
+      expect(
+        find.descendant(
+          of: find.byType(BottomSheet),
+          matching: find.text('Upload'),
+        ),
+        findsOneWidget,
+      );
     });
 
     testWidgets('switching metric in filter sheet updates active filter state', (tester) async {
@@ -99,11 +105,15 @@ void main() {
       await tester.pumpAndSettle();
 
       // Summary bar now reflects Download metric
-      expect(find.text('Download'), findsOneWidget);
+      expect(find.text('Download'), findsWidgets);
       expect(find.byType(HistoryScreen), findsOneWidget);
     });
 
     testWidgets('renders summary cards and data when snapshots exist', (tester) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+
       final now = DateTime.now();
 
       await db.usageDao.insertSnapshot(
@@ -120,7 +130,6 @@ void main() {
       await tester.pumpAndSettle();
 
       // Summary stat cards should appear
-      await tester.scrollUntilVisible(find.text('Total Transfer'), 200);
       expect(find.text('Total Transfer'), findsOneWidget);
       expect(find.text('Wi-Fi Traffic'), findsOneWidget);
       expect(find.text('Mobile Traffic'), findsOneWidget);

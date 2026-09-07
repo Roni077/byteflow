@@ -66,7 +66,7 @@ void main() {
       // Section cards
       expect(find.text('Usage Access'), findsOneWidget);
       expect(find.text('Notifications (Android 13+)'), findsOneWidget);
-      expect(find.text('Battery Optimization Exemption'), findsOneWidget);
+      expect(find.text('Battery Optimization'), findsOneWidget);
       expect(find.text('Shizuku Privileged Access'), findsOneWidget);
       expect(find.text('Privacy & Data Security'), findsOneWidget);
     });

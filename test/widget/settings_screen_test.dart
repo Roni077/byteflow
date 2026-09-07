@@ -106,6 +106,10 @@ void main() {
   group('SettingsScreen Widget Tests', () {
     testWidgets('renders all major section headers and status card',
         (tester) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+
       await tester.pumpWidget(buildSubject());
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 300));
@@ -157,12 +161,11 @@ void main() {
     });
 
     testWidgets('renders version info in About section', (tester) async {
-      await tester.pumpWidget(buildSubject());
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 300));
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
 
-      // Scroll to bottom to ensure About section is visible
-      await tester.drag(find.byType(ListView), const Offset(0, -600));
+      await tester.pumpWidget(buildSubject());
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 300));
 

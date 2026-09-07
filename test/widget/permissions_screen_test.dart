@@ -72,7 +72,10 @@ void main() {
       expect(find.text('Notifications (Android 13+)'), findsOneWidget);
       expect(find.text('Battery Optimization'), findsOneWidget);
       expect(find.text('Shizuku Privileged Multi-SIM'), findsOneWidget);
-      expect(find.text('Privacy & Data Security'), findsOneWidget);
+      expect(
+        find.textContaining('ByteFlow is 100% local, privacy-first'),
+        findsOneWidget,
+      );
     });
 
     testWidgets('renders all configured banner when all permissions granted',

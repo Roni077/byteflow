@@ -174,7 +174,7 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 300));
 
-      expect(find.text('Version 1.0.0 (1)'), findsOneWidget);
+      expect(find.text('Version 1.0.0 (Build 1)'), findsOneWidget);
       expect(find.text('Open Source Licenses'), findsOneWidget);
     });
   });

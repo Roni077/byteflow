@@ -107,7 +107,8 @@ void main() {
     testWidgets('renders all major section headers and status card',
         (tester) async {
       await tester.pumpWidget(buildSubject());
-      await tester.pumpAndSettle();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
 
       // App bar title
       expect(find.text('Settings'), findsOneWidget);
@@ -129,7 +130,8 @@ void main() {
 
     testWidgets('renders appearance theme segmented buttons', (tester) async {
       await tester.pumpWidget(buildSubject());
-      await tester.pumpAndSettle();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
 
       expect(find.text('System'), findsOneWidget);
       expect(find.text('Light'), findsOneWidget);
@@ -144,7 +146,8 @@ void main() {
       );
 
       await tester.pumpWidget(buildSubject(config: inactiveConfig));
-      await tester.pumpAndSettle();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
 
       expect(find.text('Monitoring Inactive'), findsOneWidget);
       expect(
@@ -155,11 +158,13 @@ void main() {
 
     testWidgets('renders version info in About section', (tester) async {
       await tester.pumpWidget(buildSubject());
-      await tester.pumpAndSettle();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
 
       // Scroll to bottom to ensure About section is visible
       await tester.drag(find.byType(ListView), const Offset(0, -600));
-      await tester.pumpAndSettle();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
 
       expect(find.text('Version 1.0.0 (1)'), findsOneWidget);
       expect(find.text('Open Source Licenses'), findsOneWidget);

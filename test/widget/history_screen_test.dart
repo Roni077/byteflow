@@ -67,7 +67,13 @@ void main() {
       expect(find.text('30 Days'), findsOneWidget);
 
       // Metric filter chips in sheet
-      expect(find.text('Download'), findsOneWidget);
+      expect(
+        find.descendant(
+          of: find.byType(BottomSheet),
+          matching: find.text('Download'),
+        ),
+        findsOneWidget,
+      );
       expect(find.text('Upload'), findsOneWidget);
     });
 
@@ -79,7 +85,10 @@ void main() {
       await tester.tap(find.byTooltip('Filter & Metrics'));
       await tester.pumpAndSettle();
 
-      final downloadChip = find.text('Download');
+      final downloadChip = find.descendant(
+        of: find.byType(BottomSheet),
+        matching: find.text('Download'),
+      );
       check(downloadChip.evaluate().isNotEmpty).isTrue();
 
       await tester.tap(downloadChip);
@@ -111,6 +120,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Summary stat cards should appear
+      await tester.scrollUntilVisible(find.text('Total Transfer'), 200);
       expect(find.text('Total Transfer'), findsOneWidget);
       expect(find.text('Wi-Fi Traffic'), findsOneWidget);
       expect(find.text('Mobile Traffic'), findsOneWidget);

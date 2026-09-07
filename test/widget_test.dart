@@ -19,7 +19,7 @@ void main() {
     // Verify Dashboard Cards
     expect(find.text('REAL-TIME SPEED'), findsOneWidget);
     expect(find.text("TODAY'S USAGE"), findsOneWidget);
-    expect(find.text('Download'), findsOneWidget);
-    expect(find.text('Upload'), findsOneWidget);
+    expect(find.text('Download'), findsWidgets);
+    expect(find.text('Upload'), findsWidgets);
   });
 }

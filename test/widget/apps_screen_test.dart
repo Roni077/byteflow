@@ -103,7 +103,7 @@ void main() {
     await tester.enterText(searchFinder, 'Spotify');
     await tester.pumpAndSettle();
 
-    expect(find.text('Spotify'), findsOneWidget);
+    expect(find.widgetWithText(AppUsageTile, 'Spotify'), findsOneWidget);
     expect(find.text('Google Chrome'), findsNothing);
     expect(find.byType(AppUsageTile), findsOneWidget);
 

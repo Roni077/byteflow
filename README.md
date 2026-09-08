@@ -257,7 +257,7 @@ byteflow/
 ByteFlow employs a strict **fail-fast** GitHub Actions workflow ([`.github/workflows/build-apk.yml`](.github/workflows/build-apk.yml)) triggered on pushes, pull requests, and manual triggers:
 
 ```
-[ Push / PR ] ──► [ Run Tests ] ──► [ Static Analysis ] ──► [ Build Debug APK ] ──► [ Build Release APK ] ──► [ Upload Artifacts ]
+[ Push / PR ] ──► [ Run Tests ] ──► [ Static Analysis ] ──► [ Build Debug APK ] ──► [ Build Split & Universal APKs ] ──► [ Upload Artifacts ]
                          │                    │                      │                     │
                          ▼ (if fails)         ▼ (if fails)           ▼ (if fails)          ▼ (if fails)
                      [ STOPS ]            [ STOPS ]              [ STOPS ]             [ STOPS ]
@@ -267,8 +267,8 @@ ByteFlow employs a strict **fail-fast** GitHub Actions workflow ([`.github/workf
 2. **Phase Verification**: Runs `dart test/verify_all_phases.dart` validating 92 cross-layer contracts.
 3. **Static Analysis**: Runs `flutter analyze --fatal-infos --fatal-warnings`.
 4. **Build Debug APK**: Compiles `app-debug.apk` using `flutter build apk --debug`.
-5. **Build Release APK**: Compiles `app-release.apk` using `flutter build apk --release`.
-6. **Artifact Distribution**: Uploads both debug and release APKs as build artifacts directly downloadable from the GitHub Actions run summary.
+5. **Build Release Split APKs & Universal**: Compiles ABI-split APKs using `flutter build apk --release --split-per-abi` (`arm64-v8a`, `armeabi-v7a`, `x86_64`) and the universal APK using `flutter build apk --release`.
+6. **Artifact Distribution**: Uploads debug, universal release, and per-ABI split release APKs (`byteflow-release-arm64-v8a`, `byteflow-release-armeabi-v7a`, `byteflow-release-x86_64`) directly downloadable from the GitHub Actions run summary.
 
 ---
 

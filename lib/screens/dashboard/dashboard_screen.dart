@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:byteflow/providers/user_preferences_provider.dart';
 import 'package:byteflow/widgets/connection_badge.dart';
 import 'package:byteflow/widgets/speed_card.dart';
-import 'package:byteflow/widgets/theme_ripple_switcher.dart';
+import 'package:byteflow/widgets/theme_toggle_button.dart';
 import 'package:byteflow/widgets/usage_summary_card.dart';
 
 /// The primary dashboard displaying real-time throughput and connection health.
@@ -34,7 +34,7 @@ class DashboardScreen extends StatelessWidget {
 
               return Padding(
                 padding: const EdgeInsets.only(right: 12.0),
-                child: ThemeRippleSwitcher(
+                child: ThemeToggleButton(
                   isDark: isDark,
                   onToggle: () {
                     final nextMode =

@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:byteflow/app/router.dart';
 import 'package:byteflow/app/theme.dart';
 import 'package:byteflow/providers/user_preferences_provider.dart';
-import 'package:byteflow/widgets/theme_ripple_switcher.dart';
 
 /// The root application widget for ByteFlow.
 class ByteFlowApp extends StatelessWidget {
@@ -21,34 +20,40 @@ class ByteFlowApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ProviderScope(
       overrides: overrides,
-      child: const _ByteFlowMaterialApp(),
+      child: DynamicColorBuilder(
+        builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+          return _ByteFlowMaterialApp(
+            lightDynamic: lightDynamic,
+            darkDynamic: darkDynamic,
+          );
+        },
+      ),
     );
   }
 }
 
 class _ByteFlowMaterialApp extends ConsumerWidget {
-  const _ByteFlowMaterialApp();
+  const _ByteFlowMaterialApp({
+    this.lightDynamic,
+    this.darkDynamic,
+  });
+
+  final ColorScheme? lightDynamic;
+  final ColorScheme? darkDynamic;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeModeProvider);
 
-    return DynamicColorBuilder(
-      builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
-        return MaterialApp.router(
-          title: 'ByteFlow',
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.buildLightTheme(lightDynamic),
-          darkTheme: AppTheme.buildDarkTheme(darkDynamic),
-          themeMode: themeMode,
-          routerConfig: appRouter,
-          builder: (context, child) {
-            return ThemeRevealBoundary(
-              child: child ?? const SizedBox.shrink(),
-            );
-          },
-        );
-      },
+    return MaterialApp.router(
+      title: 'ByteFlow',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.buildLightTheme(lightDynamic),
+      darkTheme: AppTheme.buildDarkTheme(darkDynamic),
+      themeMode: themeMode,
+      themeAnimationDuration: const Duration(milliseconds: 200),
+      themeAnimationCurve: Curves.easeInOut,
+      routerConfig: appRouter,
     );
   }
 }

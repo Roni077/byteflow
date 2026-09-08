@@ -17,7 +17,7 @@ import 'package:byteflow/providers/foreground_service_provider.dart';
 import 'package:byteflow/providers/package_info_provider.dart';
 import 'package:byteflow/providers/permissions_provider.dart';
 import 'package:byteflow/providers/user_preferences_provider.dart';
-import 'package:byteflow/widgets/theme_ripple_switcher.dart';
+import 'package:byteflow/widgets/theme_toggle_button.dart';
 
 /// Screen configuring background network monitoring, appearance, units, and system access.
 class SettingsScreen extends ConsumerWidget {
@@ -264,7 +264,7 @@ class SettingsScreen extends ConsumerWidget {
                   ),
                 ),
                 const Spacer(),
-                ThemeRippleSwitcher(
+                ThemeToggleButton(
                   size: 38.0,
                   iconSize: 18.0,
                   isDark: prefs.themeMode == ThemeMode.dark ||

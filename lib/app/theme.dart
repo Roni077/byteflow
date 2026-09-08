@@ -3,6 +3,7 @@ library;
 
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 /// Distinct functional signal colors for download, upload, warning, and error states.
@@ -46,6 +47,9 @@ abstract final class AppTheme {
   /// Global border radius standard for bottom sheets (numeric).
   static const double sheetRadius = 28.0;
 
+  /// Global border radius standard for popup bottom navigation dock (numeric).
+  static const double popupNavRadius = 24.0;
+
   /// Global BorderRadius standard for card and container surfaces.
   static const BorderRadius cardBorderRadius =
       BorderRadius.all(Radius.circular(cardRadius));
@@ -57,6 +61,10 @@ abstract final class AppTheme {
   /// Global BorderRadius standard for bottom sheets.
   static const BorderRadius sheetBorderRadius =
       BorderRadius.vertical(top: Radius.circular(sheetRadius));
+
+  /// Global BorderRadius standard for popup bottom navigation dock.
+  static const BorderRadius popupNavBorderRadius =
+      BorderRadius.all(Radius.circular(popupNavRadius));
 
   /// Monospaced tabular text style for counters and throughput figures to eliminate horizontal jitter.
   static TextStyle tabularMetricStyle({
@@ -124,6 +132,9 @@ abstract final class AppTheme {
         foregroundColor: colorScheme.onSurface,
         elevation: 0,
         scrolledUnderElevation: 1,
+        systemOverlayStyle: brightness == Brightness.light
+            ? SystemUiOverlayStyle.dark
+            : SystemUiOverlayStyle.light,
         titleTextStyle: textTheme.titleLarge?.copyWith(
           fontWeight: FontWeight.bold,
           color: colorScheme.onSurface,

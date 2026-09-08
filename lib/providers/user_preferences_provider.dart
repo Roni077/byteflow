@@ -60,17 +60,24 @@ class UserPreferencesNotifier extends AsyncNotifier<UserPreferences> {
   /// Sets the application theme mode and persists it to the database.
   Future<void> setThemeMode(ThemeMode mode) async {
     final current = state.value ?? const UserPreferences();
-    final db = ref.read(databaseProvider);
-    final dao = db.settingsDao;
-
-    final modeStr = switch (mode) {
-      ThemeMode.light => 'light',
-      ThemeMode.dark => 'dark',
-      ThemeMode.system => 'system',
-    };
-
-    await dao.setSetting(_keyThemeMode, modeStr);
+    // Optimistically update state immediately to prevent UI flicker
     state = AsyncValue.data(current.copyWith(themeMode: mode));
+
+    try {
+      final db = ref.read(databaseProvider);
+      final dao = db.settingsDao;
+
+      final modeStr = switch (mode) {
+        ThemeMode.light => 'light',
+        ThemeMode.dark => 'dark',
+        ThemeMode.system => 'system',
+      };
+
+      await dao.setSetting(_keyThemeMode, modeStr);
+    } catch (_) {
+      // Rollback on persistence failure
+      state = AsyncValue.data(current);
+    }
   }
 
   /// Sets the preferred speed unit and persists it to the database.
